@@ -1,0 +1,6 @@
+numpy==1.24.4
+onnx==1.15.0
+onnxconverter-common==1.14.0
+onnxruntime-gpu==1.10.0
+onnxsim==0.4.36
+protobuf==3.20.2
