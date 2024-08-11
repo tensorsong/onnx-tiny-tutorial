@@ -32,10 +32,10 @@ graph = helper.make_graph(
     initializer=[add_0_constant_tensor, mul_0_constant_tensor, add_1_constant_tensor]
 )
 model = helper.make_model(graph, opset_imports=[onnx.helper.make_opsetid('ai.onnx', 13)])
-onnx.save(model, 'test.onnx')
+onnx.save(model, 'models/test.onnx')
 
 sess = ot.InferenceSession(
-    'test.onnx', providers=['CUDAExecutionProvider', 'CPUExecutionProvider']
+    'models/test.onnx', providers=['CUDAExecutionProvider', 'CPUExecutionProvider']
 )
 input = {'add_node_0_input_0': np.random.randint(1, 10, size=shape).astype(np.float32)}
 output = sess.run(['add_node_1_output'], input)

@@ -4,7 +4,7 @@ from onnx import helper, numpy_helper, onnx_ml_pb2
 
 ##################################################################################################
 
-model: onnx_ml_pb2.ModelProto = onnx.load('test.onnx')
+model: onnx_ml_pb2.ModelProto = onnx.load('models/test.onnx')
 shape = [3, 224, 224]
 
 # 创建新的add节点
@@ -24,11 +24,11 @@ model.graph.initializer.append(add_insert_constant_tensor)
 for idx in range(len(model.graph.node)):
     if model.graph.node[idx].name == 'Mul_0':
         model.graph.node[idx].input[0] = 'add_node_insert_output'
-onnx.save(model, 'insert_add.onnx')
+onnx.save(model, 'models/insert_add.onnx')
 
 ##################################################################################################
 
-model: onnx_ml_pb2.ModelProto = onnx.load('test.onnx')
+model: onnx_ml_pb2.ModelProto = onnx.load('models/test.onnx')
 
 # 删除节点
 for idx in range(len(model.graph.node)):
@@ -41,11 +41,11 @@ for idx in range(len(model.graph.node)):
     if model.graph.node[idx].name == 'Add_1':
         model.graph.node[idx].input[0] = 'add_node_0_output'
         break
-onnx.save(model, 'del_mul.onnx')
+onnx.save(model, 'models/del_mul.onnx')
 
 ##################################################################################################
 
-model: onnx_ml_pb2.ModelProto = onnx.load('test.onnx')
+model: onnx_ml_pb2.ModelProto = onnx.load('models/test.onnx')
 add_node_insert = helper.make_node('Add', ['add_node_0_output', 'add_insert_constant_tensor'],
                                    outputs=['add_node_insert_output'], name='Add_insert')
 add_insert_constant_tensor = numpy_helper.from_array(
@@ -66,4 +66,4 @@ for idx in range(len(model.graph.node)):
     if model.graph.node[idx].name == 'Add_1':
         model.graph.node[idx].input[0] = 'add_node_insert_output'
         break
-onnx.save(model, 'replace_mul.onnx')
+onnx.save(model, 'models/replace_mul.onnx')
